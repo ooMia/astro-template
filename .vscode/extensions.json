@@ -1,9 +1,0 @@
-{
-  "recommendations": [
-    "astro-build.astro-vscode",
-    "vscjava.vscode-java-pack",
-    "vmware.vscode-boot-dev-pack",
-    "sonarsource.sonarlint-vscode"
-  ],
-  "unwantedRecommendations": []
-}
