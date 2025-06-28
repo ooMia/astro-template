@@ -1,0 +1,19 @@
+{
+    "version": "0.0.1",
+    "endpoints": [
+        {
+          "protocol": "https",
+          "host": "jsonplaceholder.typicode.com",
+          "method": "GET",
+          "path": "/todos/2",
+          "description": "외부 엔드포인트 요청 예시 1"
+        },
+        {
+          "protocol": "https",
+          "host": "api.sampleapis.com",
+          "method": "GET",
+          "path": "/baseball/hitsSingleSeason/1",
+          "description": "외부 엔드포인트 요청 예시 2"
+        }
+    ]
+}
