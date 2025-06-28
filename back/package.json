@@ -1,0 +1,25 @@
+{
+  "name": "hello-world-server",
+  "version": "1.0.0",
+  "description": "TypeScript 기반의 간단한 Hello World 서버",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/fetcher.js",
+    "dev": "tsx watch src/fetcher.ts",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.14.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.0",
+    "tsx": "^4.15.7",
+    "typescript": "^5.8.3"
+  }
+}
