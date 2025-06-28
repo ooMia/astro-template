@@ -1,0 +1,51 @@
+---
+import { Code } from "astro:components";
+
+const { code, lang } = Astro.props;
+
+const jsonify = (data: string) => JSON.stringify(data, null, 2);
+
+// 공통 들여쓰기 제거
+const trimIndents = (data: string) => {
+  // 줄 단위로 분리
+  const lines = data.split("\n");
+
+  // 모든 줄의 공통 들여쓰기 최소값 찾기 (빈 줄은 무시)
+  let minIndent = Infinity;
+  for (const line of lines) {
+    // 공백만 있는 줄은 건너뛰기
+    if (line.trim().length === 0) continue;
+
+    // 앞쪽 공백 찾기
+    const matched = line.match(/^(\s*)/);
+    if (!matched) continue;
+
+    const indent = matched[1].length;
+    if (indent < minIndent) {
+      minIndent = indent;
+    }
+  }
+
+  // 모든 줄이 빈 줄인 경우 예외 처리
+  if (minIndent === Infinity) minIndent = 0;
+
+  // 각 줄에서 공통 들여쓰기만 제거
+  const trimmedLines = lines.map((line) => {
+    if (line.trim().length === 0) return line;
+    return line.substring(minIndent);
+  });
+
+  return trimmedLines.join("\n");
+};
+
+const data = lang === "json" ? jsonify(code) : trimIndents(code);
+---
+
+<Code
+  code={data}
+  lang={lang || "java"}
+  theme='dark-plus'
+  style='padding: 1.5rem; margin: 0;'
+  wrap
+  tabindex={null}
+/>

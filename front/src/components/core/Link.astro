@@ -1,0 +1,7 @@
+---
+const { href, rel, type } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+const extendedHref = `${baseUrl}${href}`.replaceAll("//", "/");
+---
+
+<link rel={rel} type={type} href={extendedHref} />

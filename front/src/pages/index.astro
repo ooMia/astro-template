@@ -1,0 +1,14 @@
+---
+import GlobalStyles from "@/components/GlobalStyles.astro";
+import HelloLayout from "@/layouts/HelloLayout.astro";
+import Layout from "@/layouts/Landing.astro";
+---
+
+<GlobalStyles />
+<Layout>
+  <HelloLayout
+    apiPath='api/hello'
+    title='SSG built from GitHub Actions Runner'
+    description='This data is statically fetched on a build time from a SpringBoot server running on the GitHub Actions Runner.'
+  />
+</Layout>

@@ -1,0 +1,31 @@
+---
+import Link from "@/components/core/Link.astro";
+import Navigator from "@/components/Navigator.astro";
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <Link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='generator' content={Astro.generator} />
+    <title>100 Java Mistakes</title>
+    <!-- Open Graph Metadata -->
+    <meta property='og:title' content='100 Java Mistakes' />
+    <meta
+      property='og:description'
+      content='Practicing the concepts and exercises from the book `100 Java Mistakes and How to Avoid Them`'
+    />
+    <meta
+      property='og:image'
+      content='https://oomia.github.io/100_java_mistakes/front.jpeg'
+    />
+    <meta property='og:type' content='website' />
+  </head>
+  <body>
+    <nav>
+      <Navigator />
+    </nav>
+    <slot />
+  </body>
+</html>

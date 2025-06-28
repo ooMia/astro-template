@@ -1,0 +1,114 @@
+---
+import CodeCard from "@/components/core/CodeCard.astro";
+import PageHandler from "@/components/PageHandler.astro";
+import { fetchDataWithRetry } from "@/modules/fetchData";
+
+export interface Props {
+  apiPath: string;
+  title?: string;
+  description?: string;
+  maxRetries?: number;
+  delayMs?: number;
+  baseUrl?: string;
+}
+
+let {
+  apiPath,
+  title = "API Data Display",
+  description = "Data fetched from API endpoint",
+  maxRetries = 3,
+  delayMs = 10000,
+  baseUrl = "http://localhost:8080",
+} = Astro.props;
+
+const { data } = await fetchDataWithRetry(apiPath);
+const { message, before, after, id, path } = data.result![0];
+
+// TODO: use search with regex
+title = message
+  ? message
+      .split("/")
+      .pop()
+      ?.replace(".java", "")
+      .replace(/^_(\d+)_/, "#$1 ") || title
+  : title;
+---
+
+<div class='container'>
+  <div class='header'>
+    <h1>
+      {title}
+    </h1>
+  </div>
+
+  <div class='info-box'>
+    <h2>🚀 {title}</h2>
+    <p>{description}</p>
+    <slot name='info' />
+  </div>
+
+  <CodeCard
+    title='API Response'
+    summary={`GET /${apiPath}`}
+    code={data}
+    lang='json'
+  />
+  <div>
+    <CodeCard title='before' summary='before' code={before} lang='java' />
+    <CodeCard title='after' summary='after' code={after} lang='java' />
+  </div>
+  <PageHandler />
+</div>
+
+<style>
+  .container > div:has(code) {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .container {
+    margin: 3rem;
+    padding: 3rem;
+
+    background: linear-gradient(145deg, #1a1e2e, #4facfe);
+    animation: fadeIn 1s ease-out forwards;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .info-box {
+    margin: 3rem;
+    padding: 3rem;
+
+    max-width: 600px;
+    border-left: 6px solid #4facfe;
+    background: rgba(20, 30, 60, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 0.3s;
+    animation-fill-mode: both;
+  }
+
+  .info-box h2 {
+    color: #4facfe;
+    font-weight: 700;
+  }
+
+  .info-box p {
+    color: #fff;
+    line-height: 1.7;
+  }
+</style>

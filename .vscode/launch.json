@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SpringBoot Application",
+      "cwd": "${workspaceFolder}/back",
+      "type": "java",
+      "mainClass": "com.example.mistakes.MistakesApplication",
+      "projectName": "back",
+      "request": "launch"
+    },
+    {
+      "name": "Gradle Test Watch",
+      "cwd": "${workspaceFolder}/back",
+      "type": "node-terminal",
+      "command": "./gradlew test -t --watch-fs --info",
+      "request": "launch"
+    },
+    {
+      "name": "Astro Dev Server",
+      "cwd": "${workspaceFolder}/front",
+      "type": "node-terminal",
+      "command": "./node_modules/.bin/astro dev",
+      "request": "launch"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "SpringBoot & Astro",
+      "configurations": ["SpringBoot Application", "Astro Dev Server"]
+    },
+    {
+      "name": "SpringBoot & Gradle",
+      "configurations": ["SpringBoot Application", "Gradle Test Watch"]
+    },
+    {
+      "name": "All",
+      "configurations": [
+        "SpringBoot Application",
+        "Astro Dev Server",
+        "Gradle Test Watch"
+      ]
+    }
+  ]
+}

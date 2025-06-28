@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mistakes
+
+springdoc:
+  swagger-ui:
+    use-root-path: true

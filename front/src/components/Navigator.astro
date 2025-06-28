@@ -1,0 +1,78 @@
+---
+import { Metadata } from "@/modules/Metadata";
+import Anchor from "./core/Anchor.astro";
+
+const chapters = Metadata.chapters.keys().toArray();
+---
+
+<div id='main-nav' class='container'>
+  <ul>
+    <li>
+      <Anchor href='/' text='🏠' />
+    </li>
+    {
+      chapters.map((url) => (
+        <li>
+          <Anchor href={`/${url}/1/1`} text={url} />
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition:
+      transform 0.3s ease-in-out,
+      opacity 0.2s ease-in-out;
+    transform-origin: top;
+
+    max-width: 1200px;
+    padding: 0.25rem 1rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-hidden {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    transition:
+      transform 0.3s ease,
+      opacity 0.2s ease;
+  }
+</style>
+
+<script>
+  // 스크롤 이벤트 처리를 위한 스크립트
+  let lastScrollY = window.scrollY;
+  const nav = document.getElementById("main-nav");
+
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+
+    // 스크롤 방향 감지
+    if (currentScrollY > lastScrollY) {
+      // 아래로 스크롤: 네비게이션 숨기기
+      nav!.classList.add("nav-hidden");
+    } else {
+      // 위로 스크롤: 네비게이션 표시
+      nav!.classList.remove("nav-hidden");
+    }
+
+    lastScrollY = currentScrollY;
+  });
+</script>

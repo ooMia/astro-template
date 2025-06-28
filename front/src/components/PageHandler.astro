@@ -1,0 +1,165 @@
+---
+import { Metadata } from "@/modules/Metadata";
+
+// 1. from url, get chapterName, mistakeId, exampleIndex
+const url = Astro.url;
+const pathSegments = url.pathname.split("/").filter(Boolean);
+const [baseUrl, chapterName, mistakeId, exampleIndex] = pathSegments;
+// console.log(chapterName, mistakeId, exampleIndex);
+
+// 2. metadata
+const instance = await Metadata.create(chapterName);
+const mistakeRange = instance.getMistakeRange();
+const exampleRange = {
+  from: 1,
+  to: instance.getExampleLength(parseInt(mistakeId)),
+};
+
+// 3. is prev/next mistake/example disabled
+const showNavigation = exampleIndex !== undefined;
+const prevMistakeDisabled = parseInt(mistakeId) === mistakeRange.from;
+const nextMistakeDisabled = parseInt(mistakeId) === mistakeRange.to;
+const prevExampleDisabled = parseInt(exampleIndex) === exampleRange.from;
+const nextExampleDisabled = parseInt(exampleIndex) === exampleRange.to;
+---
+
+{
+  showNavigation && (
+    <div class='page-navigation'>
+      {/* example handler */}
+
+      <div class='button-container'>
+        {prevExampleDisabled ? (
+          <button disabled class='nav-button prev-button disabled'>
+            Prev Example
+          </button>
+        ) : (
+          <a
+            href={`/${baseUrl}/${chapterName}/${mistakeId}/${parseInt(exampleIndex) - 1}`}
+            class={
+              "nav-button prev-button" +
+              (prevExampleDisabled ? " disabled" : "")
+            }
+          >
+            Prev Example
+          </a>
+        )}
+
+        {/* list up examples */}
+        {Array.from(
+          { length: exampleRange.to - exampleRange.from + 1 },
+          (_, i) => {
+            const exampleNumber = exampleRange.from + i;
+            return (
+              <a
+                href={`/${baseUrl}/${chapterName}/${mistakeId}/${exampleNumber}`}
+                class={` ${exampleNumber === parseInt(exampleIndex) ? "current-page" : ""}`}
+              >
+                {exampleNumber}
+              </a>
+            );
+          }
+        )}
+
+        {nextExampleDisabled ? (
+          <button disabled class='nav-button next-button disabled'>
+            Next Example
+          </button>
+        ) : (
+          <a
+            href={`/${baseUrl}/${chapterName}/${mistakeId}/${parseInt(exampleIndex) + 1}`}
+            class='nav-button next-button'
+          >
+            Next Example
+          </a>
+        )}
+      </div>
+
+      {/* mistake handler */}
+      <div class='button-container'>
+        {prevMistakeDisabled ? (
+          <button disabled class='nav-button prev-button disabled'>
+            Prev Mistake
+          </button>
+        ) : (
+          <a
+            href={`/${baseUrl}/${chapterName}/${parseInt(mistakeId) - 1}/1`}
+            class='nav-button prev-button'
+          >
+            Prev Mistake
+          </a>
+        )}
+
+        {/* list up mistakes */}
+        {Array.from(
+          { length: mistakeRange.to - mistakeRange.from + 1 },
+          (_, i) => {
+            const mistakeNumber = mistakeRange.from + i;
+            return (
+              <a
+                href={`/${baseUrl}/${chapterName}/${mistakeNumber}/1`}
+                class={` ${mistakeNumber === parseInt(mistakeId) ? "current-page" : ""}`}
+              >
+                {mistakeNumber}
+              </a>
+            );
+          }
+        )}
+
+        {nextMistakeDisabled ? (
+          <button disabled class='nav-button next-button disabled'>
+            Next Mistake
+          </button>
+        ) : (
+          <a
+            href={`/${baseUrl}/${chapterName}/${parseInt(mistakeId) + 1}/1`}
+            class='nav-button next-button'
+          >
+            Next Mistake
+          </a>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .page-navigation {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-button {
+    user-select: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f5f5f5;
+    transition: background-color 0.2s;
+  }
+
+  .nav-button:hover:not(.disabled) {
+    background-color: #e0e0e0;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .current-page {
+    font-weight: 500;
+  }
+</style>
