@@ -1,19 +1,33 @@
 {
-    "version": "0.0.1",
-    "endpoints": [
-        {
-          "protocol": "https",
-          "host": "jsonplaceholder.typicode.com",
-          "method": "GET",
-          "path": "/todos/2",
-          "description": "외부 엔드포인트 요청 예시 1"
-        },
-        {
-          "protocol": "https",
-          "host": "api.sampleapis.com",
-          "method": "GET",
-          "path": "/baseball/hitsSingleSeason/1",
-          "description": "외부 엔드포인트 요청 예시 2"
-        }
-    ]
+  "version": "0.0.1",
+  "endpoints": [
+    {
+      "protocol": "http",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/api/hello",
+      "description": "내부 엔드포인트 요청 예시 (실패)"
+    },
+    {
+      "protocol": "https",
+      "host": "jsonplaceholder.typicode.com",
+      "method": "GET",
+      "path": "/todos/2",
+      "description": "외부 엔드포인트 요청 예시 1"
+    },
+    {
+      "protocol": "https",
+      "host": "api.sampleapis.com",
+      "method": "GET",
+      "path": "/baseball/hitsSingleSeason/1",
+      "description": "외부 엔드포인트 요청 예시 2"
+    },
+    {
+      "protocol": "https",
+      "host": "api.sampleapis.com",
+      "method": "GET",
+      "path": "/wines/reds/3",
+      "description": "외부 엔드포인트 요청 예시 3"
+    }
+  ]
 }
