@@ -1,14 +1,17 @@
 ---
+import Link from "@/components/core/Link.astro";
 import GlobalStyles from "@/components/GlobalStyles.astro";
-import HelloLayout from "@/layouts/HelloLayout.astro";
 import Layout from "@/layouts/Landing.astro";
 ---
 
 <GlobalStyles />
 <Layout>
-  <HelloLayout
-    apiPath='api/hello'
-    title='SSG built from GitHub Actions Runner'
-    description='This data is statically fetched on a build time from a SpringBoot server running on the GitHub Actions Runner.'
-  />
+  <ul style='background-color: aliceblue; padding: 3rem; margin: 3rem;'>
+    <li>
+      <Link href='/api/api-sampleapis-com/wines/reds/3.json' />
+    </li>
+    <li>
+      <Link href='/api-sampleapis-com/wines/reds/3.json'>asd</Link>
+    </li>
+  </ul>
 </Layout>

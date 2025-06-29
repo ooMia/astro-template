@@ -17,7 +17,7 @@ const {
   description = "Data fetched from API endpoint",
   maxRetries = 3,
   delayMs = 10000,
-  baseUrl = "http://localhost:8080",
+  baseUrl = "http://localhost:3000",
 } = Astro.props;
 
 // console.log(apiPath);
@@ -40,8 +40,8 @@ import front from "public/front.jpeg";
     <slot name='info' />
   </div>
   <div class='info-box'>
-    <Image src={front} alt='100 Java Mistakes' width='250' />
-    <Image src={back} alt='100 Java Mistakes' width='250' />
+    <Image src={front} alt='Astro Template' width='250' />
+    <Image src={back} alt='Astro Template' width='250' />
   </div>
   <CodeCard
     title='API Response'
