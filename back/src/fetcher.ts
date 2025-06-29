@@ -43,7 +43,7 @@ async function writeResponseToFile(data: any, filePath: string): Promise<void> {
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const baseDir = path.resolve(__dirname, "..", "..", "data");
+  const baseDir = path.resolve(__dirname, "..", "..", "front", "public", "api");
   const fullFilePath = path.join(baseDir, filePath);
   const dir = path.dirname(fullFilePath);
   await fs.promises.mkdir(dir, { recursive: true });
@@ -56,7 +56,7 @@ async function main() {
   console.log("Fetcher started...");
 
   const endpointConfig: EndpointsConfig = JSON.parse(
-    fs.readFileSync("endpoints.json", "utf-8")
+    fs.readFileSync(path.resolve("..", "endpoints.json"), "utf-8")
   );
 
   const endpoints: Endpoint[] = endpointConfig.endpoints;
