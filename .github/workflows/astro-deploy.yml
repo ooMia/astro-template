@@ -1,14 +1,11 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches: [main]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
-  workflow_dispatch:
   pull_request:
-    branches: [develop]
+    branches: [main]
+  workflow_dispatch:
 
 # Allow this job to clone the repo and create a page deployment
 permissions:
@@ -20,35 +17,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v4
-
-      # https://github.com/actions/setup-java?tab=readme-ov-file#supported-version-syntax
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          distribution: "graalvm"
-          java-version: "23"
-
-      - name: Setup Gradle Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build Spring Boot application
-        working-directory: ./back
-        run: |
-          chmod +x ./gradlew
-          ./gradlew bootRun &
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
+          node-version: 23
       - name: Setup npm cache
         uses: actions/cache@v4
         with:
@@ -56,15 +28,19 @@ jobs:
           key: node-cache-Linux-x64-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             node-cache-Linux-x64-npm-
+
+      - name: Fetch responses
+        working-directory: back
+        run: |
+          npm install
+          npm run build
+          npm start
+
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
           path: front
           node-version: 23
-        # with:
-        # path: . # The root location of your Astro project inside the repository. (optional)
-        # node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
-        # package-manager: pnpm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
 
   deploy:
     needs: build
